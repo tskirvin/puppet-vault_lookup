@@ -71,22 +71,24 @@ Puppet::Functions.create_function(:'vault_lookup::lookup', Puppet::Functions::In
              approle_path_segment = nil,
              agent_sink_file = nil,
              raise_exceptions = true)
+    begin
+      PuppetX::VaultLookup::Lookup.lookup(cache: cache,
+                                          path: path,
+                                          vault_addr: vault_addr,
+                                          cert_path_segment: cert_path_segment,
+                                          cert_role: cert_role,
+                                          namespace: namespace,
+                                          field: field,
+                                          auth_method: auth_method,
+                                          role_id: role_id,
+                                          secret_id: secret_id,
+                                          approle_path_segment: approle_path_segment,
+                                          agent_sink_file: agent_sink_file)
+    rescue StandardError => e
+      raise if raise_exceptions
 
-    PuppetX::VaultLookup::Lookup.lookup(cache: cache,
-                                        path: path,
-                                        vault_addr: vault_addr,
-                                        cert_path_segment: cert_path_segment,
-                                        cert_role: cert_role,
-                                        namespace: namespace,
-                                        field: field,
-                                        auth_method: auth_method,
-                                        role_id: role_id,
-                                        secret_id: secret_id,
-                                        approle_path_segment: approle_path_segment,
-                                        agent_sink_file: agent_sink_file)
-  rescue StandardError => e
-    raise if raise_exceptions
-    Puppet.err(e.message)
-    nil
+      Puppet.err(e.message)
+      nil
+    end
   end
 end
