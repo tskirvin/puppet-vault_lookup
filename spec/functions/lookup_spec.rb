@@ -28,10 +28,10 @@ describe 'vault_lookup::lookup' do
   end
 
   it 'returns nil instead of raising when raising is disabled' do
-    expect {
+    expect do
       result = function.execute('/v1/whatever', 'vault.docker', false)
-      expect(result).to be(nil)
-    }.not_to raise_error
+      expect(result).to be_nil
+    end.not_to raise_error
   end
 
   it 'raises a Puppet error when auth fails' do

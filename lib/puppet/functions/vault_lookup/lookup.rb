@@ -86,6 +86,7 @@ Puppet::Functions.create_function(:'vault_lookup::lookup', Puppet::Functions::In
                                         agent_sink_file: agent_sink_file)
   rescue StandardError => e
     raise if raise_exceptions
+    
     Puppet.err(e.message)
     nil
   end
